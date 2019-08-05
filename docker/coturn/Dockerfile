@@ -28,13 +28,13 @@ ENV TURNSERVER_USER turnserver
 
 COPY --from=coturn-build ${BUILD_PREFIX}/coturn/bin/ ${INSTALL_PREFIX}/bin/
 COPY --from=coturn-build ${BUILD_PREFIX}/coturn/man/ ${INSTALL_PREFIX}/man/
-#COPY turnserver.conf ${INSTALL_PREFIX}/etc
+COPY turnserver.conf ${INSTALL_PREFIX}/etc
 COPY --from=coturn-build ${BUILD_PREFIX}/coturn/sqlite/turndb ${INSTALL_PREFIX}/var/db/turndb
 COPY --from=coturn-build ${BUILD_PREFIX}/coturn/turndb ${INSTALL_PREFIX}/turndb
 # Install lib dependencies
 RUN export DEBIAN_FRONTEND=noninteractive && \
 	apt-get update && \
-	apt-get install -y libc6>=2.15 libevent-core-2.0-5>=2.0.10-stable libevent-extra-2.0-5>=2.0.10-stable libevent-openssl-2.0-5>=2.0.10-stable libevent-pthreads-2.0-5>=2.0.10-stable libhiredis0.13>=0.13.1 libmariadbclient18>=5.5.36 libpq5>=8.4~ libsqlite3-0>=3.6.0 libssl1.1>=1.1.0 libmongoc-1.0 libbson-1.0
+	apt-get install -y libc6>=2.15 libevent-core-2.1-6>=2.0.10-stable libevent-extra-2.1-6>=2.0.10-stable libevent-openssl-2.0-5>=2.0.10-stable libevent-pthreads-2.0-5>=2.0.10-stable libhiredis0.13>=0.13.1 libmariadbclient18>=5.5.36 libpq5>=8.4~ libsqlite3-0>=3.6.0 libssl1.1>=1.1.0 libmongoc-1.0 libbson-1.0
 RUN	apt-get install -y mysql-client postgresql-client redis-tools mongodb-clients
 
 RUN if ! getent group "$TURNSERVER_GROUP" >/dev/null; then \
